@@ -14,7 +14,7 @@ class JasminGroup(object):
     def from_line(cls, line: List[str]) -> JasminGroup:
         group = cls()
         group.gid = line[0].replace('#', '').replace('!', '')
-        group.is_active = line[0].startswith('#!')
+        group.is_active = not line[0].startswith('#!')
 
         return group
 
