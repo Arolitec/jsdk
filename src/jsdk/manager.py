@@ -6,7 +6,7 @@ from enum import Enum
 import pexpect
 from pexpect import spawn
 
-from models import *
+from .models import *
 
 
 class MTRouteType(str, Enum):
