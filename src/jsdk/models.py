@@ -113,8 +113,8 @@ class JasminUser(object):
 
         user.defaultvalue_src_addr = data[-8][-1]
 
-        user.authorization_bind = data[-8][-2]
-        user.quota_max_bindings = data[-8][-1]
+        user.authorization_bind = bool(data[-2][-1])
+        user.quota_max_bindings = data[-1][-1]
 
         return user
 
