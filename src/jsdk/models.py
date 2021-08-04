@@ -208,7 +208,7 @@ class JasminSMPPConnector(object):
     @classmethod
     def from_line(cls, line: List[str]):
         connector = cls()
-        connector.cid = line[0].replace('#', ' ')
+        connector.cid = line[0].replace('#', '')
         connector.is_running = line[1] == 'started'
         connector.session = line[2]
         connector.starts = line[3]

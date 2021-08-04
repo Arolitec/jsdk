@@ -582,6 +582,8 @@ class JasminSMPPConnectorManager(JasminManager):
             for key, value in kwargs.items():
                 child.sendline(f'{key} {value}')
                 child.expect('')
+            child.sendline('ok')
+            child.expect('')
 
         return self._get_operation_status()
 
