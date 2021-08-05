@@ -61,8 +61,9 @@ class JasminManager(object):
         except ExceptionPexpect as exc:
             raise JasminException('Unable to connect to jasmin service') from exc
         finally:
-            self.child.sendline('persist')
-            self.child.sendline('quit')
+            if self.child:
+                self.child.sendline('persist')
+                self.child.sendline('quit')
 
     def add(self, *args, **kwargs):
         raise NotImplementedError
