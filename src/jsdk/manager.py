@@ -4,9 +4,10 @@ from typing import List
 from enum import Enum
 
 import pexpect
-from pexpect import spawn
+from pexpect import spawn, ExceptionPexpect
 
 from .models import *
+from .exceptions import JasminException
 
 
 class MTRouteType(str, Enum):
@@ -57,6 +58,8 @@ class JasminManager(object):
                 self.child.logfile = sys.stdout.buffer
 
             yield self.child
+        except ExceptionPexpect as exc:
+            raise JasminException('Unable to connect to jasmin service') from exc
         finally:
             self.child.sendline('persist')
             self.child.sendline('quit')
