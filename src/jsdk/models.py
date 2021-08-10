@@ -1,4 +1,4 @@
-from typing import ForwardRef, List, Union
+from typing import ForwardRef, List, Optional, Union
 
 JasminUser = ForwardRef('JasminUser')
 JasminFilter = ForwardRef('JasminFilter')
@@ -124,7 +124,7 @@ class JasminMTRoute(object):
     type: str
     rate: Union[float, str]
     connector: str
-    filter: str
+    filter: Optional[str]
 
     @classmethod
     def from_line(cls, line: List[str]) -> JasminMTRoute:
@@ -132,8 +132,13 @@ class JasminMTRoute(object):
         mt_route.order = line[0].replace('#', '')
         mt_route.rate = line[2]
         mt_route.connector = line[4] if line[3] == '(!)' else line[3]
-        mt_route.filter = f'{line[5]} {line[6]}' if line[3] == '(!)' else f'{line[4]} {line[5]}'
-        mt_route.filter = mt_route.filter.replace('<', '').replace('>', '')
+        try:
+            if line[3] == '(!)' and line[5]:
+                mt_route.filter = f'{line[5]} {line[6]}'
+            if line[3] != '(!)' and line[4]:
+                mt_route.filter = f'{line[4]} {line[5]}'
+        except IndexError:
+            mt_route.filter = None
         mt_route.type = line[1]
 
         return mt_route
