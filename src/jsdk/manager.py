@@ -183,11 +183,7 @@ class JasminUserManager(JasminManager):
             child.sendline(f'uid {username}')
             child.sendline(f'password {password}')
             child.sendline(f'gid {gid}')
-            child.sendline(f'mt_messaging_cred quota balance {balance}')
 
-            child.sendline(f'smpps_cred authorization bind {bind}')
-            child.sendline(
-                f'smpps_cred authorization max_bindings {max_bindings}')
             child.sendline(
                 f'mt_messaging_cred authorization http_send {http_send}')
             child.sendline(
@@ -230,8 +226,6 @@ class JasminUserManager(JasminManager):
             child.sendline(
                 f'mt_messaging_cred defaultvalue src_addr {defaultvalue_src_addr}')
 
-            child.sendline(
-                f'mt_messaging_cred defaultvalue src_addr {defaultvalue_src_addr}')
             child.sendline(f'mt_messaging_cred quota balance {balance}')
             child.sendline(
                 f'mt_messaging_cred quota early_percent {early_percent}')
@@ -378,7 +372,7 @@ class JasminUserManager(JasminManager):
                 child.sendline(f'smpps_cred authorization bind {bind}')
             if max_bindings:
                 child.sendline(
-                    f'smpps_cred authorization max_bindings {max_bindings}')
+                    f'smpps_cred quota max_bindings {max_bindings}')
 
             child.sendline('ok')
 
