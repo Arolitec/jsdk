@@ -91,19 +91,19 @@ class JasminUser(object):
         user.uid = data[0][-1]
         user.is_active = None
 
-        user.http_send = bool(data[3][-1])
-        user.http_balance = bool(data[4][-1])
-        user.http_rate = bool(data[5][-1])
-        user.http_bulk = bool(data[6][-1])
-        user.smpps_send = bool(data[7][-1])
-        user.http_long_content = bool(data[8][-1])
-        user.dlr_level = bool(data[9][-1])
-        user.http_dlr_method = bool(data[10][-1])
-        user.src_addr = bool(data[11][-1])
-        user.priority = bool(data[12][-1])
-        user.validity_period = bool(data[13][-1])
-        user.schedule_delivery_time = bool(data[14][-1])
-        user.hex_content = bool(data[15][-1])
+        user.http_send = data[3][-1] == 'True'
+        user.http_balance = data[4][-1] == 'True'
+        user.http_rate = data[5][-1] == 'True'
+        user.http_bulk = data[6][-1] == 'True'
+        user.smpps_send = data[7][-1] == 'True'
+        user.http_long_content = data[8][-1] == 'True'
+        user.dlr_level = data[9][-1] == 'True'
+        user.http_dlr_method = data[10][-1] == 'True'
+        user.src_addr = data[11][-1] == 'True'
+        user.priority = data[12][-1] == 'True'
+        user.validity_period = data[13][-1] == 'True'
+        user.schedule_delivery_time = data[14][-1] == 'True'
+        user.hex_content = data[15][-1] == 'True'
 
         user.valuefilter_dst_addr = data[16][-1]
         user.valuefilter_src_addr = data[17][-1]
@@ -113,7 +113,7 @@ class JasminUser(object):
 
         user.defaultvalue_src_addr = data[-8][-1]
 
-        user.authorization_bind = bool(data[-2][-1])
+        user.authorization_bind = data[-2][-1] == 'True'
         user.quota_max_bindings = data[-1][-1]
 
         return user
