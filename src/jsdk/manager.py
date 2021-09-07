@@ -295,42 +295,42 @@ class JasminUserManager(JasminManager):
                 child.sendline(f'gid {gid}')
             if password:
                 child.sendline(f'password {password}')
-            if http_send:
+            if http_send is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_send {http_send}')
-            if http_balance:
+            if http_balance is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_balance {http_balance}')
-            if http_rate:
+            if http_rate is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_rate {http_rate}')
-            if http_bulk:
+            if http_bulk is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_bulk {http_bulk}')
             child.sendline(
                 f'mt_messaging_cred authorization smpps_send {smpps_send}')
-            if http_long_content:
+            if http_long_content is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_long_content {http_long_content}')
-            if dlr_level:
+            if dlr_level is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization dlr_level {dlr_level}')
-            if http_dlr_method:
+            if http_dlr_method is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization http_dlr_method {http_dlr_method}')
-            if src_addr:
+            if src_addr is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization src_addr {src_addr}')
-            if priority:
+            if priority is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization priority {priority}')
-            if validity_period:
+            if validity_period is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization validity_period {validity_period}')
-            if schedule_delivery_time:
+            if schedule_delivery_time is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization schedule_delivery_time {schedule_delivery_time}')
-            if hex_content:
+            if hex_content is not None:
                 child.sendline(
                     f'mt_messaging_cred authorization hex_content {hex_content}')
 
@@ -368,7 +368,7 @@ class JasminUserManager(JasminManager):
             if smpps_throughput:
                 child.sendline(
                     f'mt_messaging_cred quota smpps_throughput {smpps_throughput}')
-            if bind:
+            if bind is not None:
                 child.sendline(f'smpps_cred authorization bind {bind}')
             if max_bindings:
                 child.sendline(
