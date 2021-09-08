@@ -59,7 +59,8 @@ class JasminManager(object):
 
             yield self.child
         except ExceptionPexpect as exc:
-            raise JasminException('Unable to connect to jasmin service') from exc
+            raise JasminException(
+                'Unable to connect to jasmin service') from exc
         finally:
             if self.child:
                 self.child.sendline('persist')
@@ -106,7 +107,8 @@ class JasminManager(object):
         for line in raw_data:
             if line.startswith('jcli'):
                 continue
-            inspect_lines.append([data for data in line.split(' ') if data != ''])
+            inspect_lines.append(
+                [data for data in line.split(' ') if data != ''])
 
         return inspect_lines
 
@@ -295,84 +297,59 @@ class JasminUserManager(JasminManager):
                 child.sendline(f'gid {gid}')
             if password:
                 child.sendline(f'password {password}')
-            if http_send is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_send {http_send}')
-            if http_balance is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_balance {http_balance}')
-            if http_rate is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_rate {http_rate}')
-            if http_bulk is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_bulk {http_bulk}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_send {http_send}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_balance {http_balance}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_rate {http_rate}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_bulk {http_bulk}')
             child.sendline(
                 f'mt_messaging_cred authorization smpps_send {smpps_send}')
-            if http_long_content is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_long_content {http_long_content}')
-            if dlr_level is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization dlr_level {dlr_level}')
-            if http_dlr_method is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization http_dlr_method {http_dlr_method}')
-            if src_addr is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization src_addr {src_addr}')
-            if priority is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization priority {priority}')
-            if validity_period is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization validity_period {validity_period}')
-            if schedule_delivery_time is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization schedule_delivery_time {schedule_delivery_time}')
-            if hex_content is not None:
-                child.sendline(
-                    f'mt_messaging_cred authorization hex_content {hex_content}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_long_content {http_long_content}')
+            child.sendline(
+                f'mt_messaging_cred authorization dlr_level {dlr_level}')
+            child.sendline(
+                f'mt_messaging_cred authorization http_dlr_method {http_dlr_method}')
+            child.sendline(
+                f'mt_messaging_cred authorization src_addr {src_addr}')
+            child.sendline(
+                f'mt_messaging_cred authorization priority {priority}')
+            child.sendline(
+                f'mt_messaging_cred authorization validity_period {validity_period}')
+            child.sendline(
+                f'mt_messaging_cred authorization schedule_delivery_time {schedule_delivery_time}')
+            child.sendline(
+                f'mt_messaging_cred authorization hex_content {hex_content}')
 
             child.expect(['>'])
 
-            if dst_addr:
-                child.sendline(
-                    f'mt_messaging_cred valuefilter dst_addr {dst_addr}')
-            if valuefilter_src_addr:
-                child.sendline(
-                    f'mt_messaging_cred valuefilter src_addr {valuefilter_src_addr}')
-            if valuefilter_priority:
-                child.sendline(
-                    f'mt_messaging_cred valuefilter priority {valuefilter_priority}')
-            if valuefilter_validity_period:
-                child.sendline(
-                    f'mt_messaging_cred valuefilter validity_period {valuefilter_validity_period}')
-            if content:
-                child.sendline(
-                    f'mt_messaging_cred valuefilter content {content}')
-            if defaultvalue_src_addr:
-                child.sendline(
-                    f'mt_messaging_cred defaultvalue src_addr {defaultvalue_src_addr}')
-            if balance:
-                child.sendline(f'mt_messaging_cred quota balance {balance}')
-            if early_percent:
-                child.sendline(
-                    f'mt_messaging_cred quota early_percent {early_percent}')
-            if sms_count:
-                child.sendline(
-                    f'mt_messaging_cred quota sms_count {sms_count}')
-            if http_throughput:
-                child.sendline(
-                    f'mt_messaging_cred quota http_throughput {http_throughput}')
-            if smpps_throughput:
-                child.sendline(
-                    f'mt_messaging_cred quota smpps_throughput {smpps_throughput}')
-            if bind is not None:
-                child.sendline(f'smpps_cred authorization bind {bind}')
-            if max_bindings:
-                child.sendline(
-                    f'smpps_cred quota max_bindings {max_bindings}')
+            child.sendline(
+                f'mt_messaging_cred valuefilter dst_addr {dst_addr}')
+            child.sendline(
+                f'mt_messaging_cred valuefilter src_addr {valuefilter_src_addr}')
+            child.sendline(
+                f'mt_messaging_cred valuefilter priority {valuefilter_priority}')
+            child.sendline(
+                f'mt_messaging_cred valuefilter validity_period {valuefilter_validity_period}')
+            child.sendline(
+                f'mt_messaging_cred valuefilter content {content}')
+            child.sendline(
+                f'mt_messaging_cred defaultvalue src_addr {defaultvalue_src_addr}')
+            child.sendline(f'mt_messaging_cred quota balance {balance}')
+            child.sendline(
+                f'mt_messaging_cred quota early_percent {early_percent}')
+            child.sendline(
+                f'mt_messaging_cred quota sms_count {sms_count}')
+            child.sendline(
+                f'mt_messaging_cred quota http_throughput {http_throughput}')
+            child.sendline(
+                f'mt_messaging_cred quota smpps_throughput {smpps_throughput}')
+            child.sendline(f'smpps_cred authorization bind {bind}')
+            child.sendline(
+                f'smpps_cred quota max_bindings {max_bindings}')
 
             child.sendline('ok')
 
