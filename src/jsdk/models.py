@@ -4,6 +4,7 @@ JasminUser = ForwardRef('JasminUser')
 JasminFilter = ForwardRef('JasminFilter')
 JasminGroup = ForwardRef('JasminGroup')
 JasminMTRoute = ForwardRef('JasminMTRoute')
+JasminMORoute = ForwardRef('JasminMORoute')
 
 
 class JasminGroup(object):
@@ -67,7 +68,7 @@ class JasminUser(object):
         user = cls()
         user.quota_balance = line[3] if line[3] == 'ND' else float(line[3])
         user.quota_sms_count = line[5] if line[
-                                              3] == 'ND' and line[4] == '(!)' else line[4]
+            3] == 'ND' and line[4] == '(!)' else line[4]
         user.username = line[2]
         user.throughput_summary = line[7] if line[3] == 'ND' and line[5] == 'ND' else line[5]
         user.gid = line[1].replace('!', '')
@@ -142,6 +143,23 @@ class JasminMTRoute(object):
         mt_route.type = line[1]
 
         return mt_route
+
+
+class JasminMORoute(object):
+    order: int
+    type: str
+    connector: str
+    filter: Optional[str]
+
+    @classmethod
+    def from_line(cls, line: List[str]) -> JasminMORoute:
+        mo_route = cls()
+        mo_route.order = line[0].replace('#', '')
+        mo_route.connector = line[2]
+        mo_route.filter = f'{line[3]} {line[4]}'
+        mo_route.type = line[1]
+
+        return mo_route
 
 
 class JasminFilter(object):

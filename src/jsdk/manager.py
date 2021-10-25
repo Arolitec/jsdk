@@ -17,6 +17,13 @@ class MTRouteType(str, Enum):
     FailoverMTRoute = 'FailoverMTRoute'
 
 
+class MORouteType(str, Enum):
+    DefaultRoute = 'DefaultRoute'
+    StaticMORoute = 'StaticMORoute'
+    RandomRoundrobinMORoute = 'FailoverMORoute'
+    FailoverMORoute = 'FailoverMORoute'
+
+
 class FilterType(str, Enum):
     TransparentFilter = 'TransparentFilter'
     ConnectorFilter = 'ConnectorFilter'
@@ -775,6 +782,86 @@ class JasminMTRouterManager(JasminManager):
 
     def flush(self) -> bool:
         """Flush MT Routing table. 
+        Be careful, this action is UNRECOVERABLE!
+
+        Returns:
+            bool: True is operation is successful, otherwise False
+        """
+        with self.connect() as child:
+            child.sendline(f'{self.__base_cmd__} -f')
+            child.expect('')
+
+        return self._get_operation_status()
+
+    def inspect(self, id: str):
+        pass
+
+
+class JasminMORouterManager(JasminManager):
+    __base_cmd__ = 'morouter'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def add(self, order: int, type: MORouteType = MORouteType.DefaultRoute, **kwargs) -> bool:
+        """Create a new MO Route
+
+        Args:
+            order (int): Route Order
+            type (MTRouteType, optional): Route type. Defaults to MTRouteType.DefaultRoute.
+            **kwargs (dict): Additional parameters according to route type
+
+        Returns:
+            bool: True is operation is successful, otherwise False
+        """
+        with self.connect() as child:
+            child.sendline('{} --add'.format(self.__base_cmd__))
+            child.expect('')
+            child.sendline(f'type {type}')
+            child.expect('')
+            child.sendline('order {}'.format(order))
+            child.expect('')
+            for key, value in kwargs.items():
+                child.sendline(f'{key} {value}')
+                child.expect('')
+            child.sendline('ok')
+            child.expect('')
+
+        return self._get_operation_status()
+
+    def remove(self, order: int) -> bool:
+        """Remove MO Route using its order
+
+        Args:
+            order (int): MO Route order
+
+        Returns:
+            bool: True is operation is successful, otherwise False
+        """
+        with self.connect() as child:
+            child.sendline('{} -r {}'.format(self.__base_cmd__, order))
+            child.expect('')
+
+        return self._get_operation_status()
+
+    def update(self, *args, **kwargs):
+        pass
+
+    def list(self) -> List[JasminMTRoute]:
+        """List MO Routes
+
+        Returns:
+            List[JasminMORoute]: MO Routes list
+        """
+        global lines
+        with self.connect() as child:
+            child.sendline(f'{self.__base_cmd__} -l')
+            lines = self._parse_list('Total MO Routes:')
+
+        return [JasminMORoute.from_line(line) for line in lines]
+
+    def flush(self) -> bool:
+        """Flush MO Routing table. 
         Be careful, this action is UNRECOVERABLE!
 
         Returns:
