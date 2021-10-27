@@ -847,7 +847,7 @@ class JasminMORouterManager(JasminManager):
     def update(self, *args, **kwargs):
         pass
 
-    def list(self) -> List[JasminMTRoute]:
+    def list(self) -> List[JasminMORoute]:
         """List MO Routes
 
         Returns:
