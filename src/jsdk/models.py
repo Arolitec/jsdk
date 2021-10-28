@@ -132,15 +132,22 @@ class JasminMTRoute(object):
         mt_route = cls()
         mt_route.order = line[0].replace('#', '')
         mt_route.rate = line[2]
-        mt_route.connector = line[4] if line[3] == '(!)' else line[3]
-        try:
-            if line[3] == '(!)' and line[5]:
-                mt_route.filter = f'{line[5]} {line[6]}'
-            if line[3] != '(!)' and line[4]:
-                mt_route.filter = f'{line[4]} {line[5]}'
-        except IndexError:
-            mt_route.filter = None
         mt_route.type = line[1]
+
+        if line[1] == 'RandomRoundrobinMTRoute':
+            start = 4 if line[3] == '(!)' else 3
+            end = line.index('<TG')
+            mt_route.connector = ''.join(line[start:end])
+
+            mt_route.filter = f'{line[-2]} {line[-1]}'
+
+        if line[1] == 'StaticMTRoute':
+            mt_route.connector = line[4] if line[3] == '(!)' else line[3]
+            mt_route.filter = f'{line[-2]} {line[-1]}'
+
+        if line[1] == 'DefaultRoute':
+            mt_route.connector = line[4] if line[3] == '(!)' else line[3]
+            mt_route.filter = None
 
         return mt_route
 
