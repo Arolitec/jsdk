@@ -808,7 +808,7 @@ class JasminMORouterManager(JasminManager):
 
         Args:
             order (int): Route Order
-            type (MTRouteType, optional): Route type. Defaults to MTRouteType.DefaultRoute.
+            type (MORouteType, optional): Route type. Defaults to MORouteType.DefaultRoute.
             **kwargs (dict): Additional parameters according to route type
 
         Returns:
